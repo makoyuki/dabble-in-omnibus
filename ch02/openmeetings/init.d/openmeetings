@@ -1,0 +1,69 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          Openmeetings
+# Required-Start:    mysql apache2 kurento-media-server
+# Required-Stop:
+# Should-Start:
+# Should-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Apache Openmeetings Service
+# Description:       Openmeetings provides video conferencing, instant messaging,
+#                    white board, collaborative document editing and other groupware
+#                    tools using API functions of the Red5 Streaming Server for#                    Remoting and Streaming.
+### END INIT INFO
+# set the environment
+# JAVA_OPTS=""
+# CATALINA_OPTS=""
+CATALINA_HOME=/usr/share/openmeetings
+RUN_USER=nobody
+# set TIME OUT values
+# TIMELIMIT=10
+# SLEEPTIME=40
+# Function to wait until all Tomcat processes are killed
+waitForTomcatToDie()
+{
+    PROCESSES=`ps auxwww | grep $HOME | grep 'java' | grep 'tomcat' | grep -v 'grep'`
+    while [ ! -z "$PROCESSES" ] && [ $SECONDS -lt $TIMELIMIT ] && [ $TIMELIMIT-ne 0 ]; do
+        echo -n "."
+        sleep $SLEEPTIME
+        PROCESSES=`ps auxwww | grep $USER | grep 'java' | grep 'tomcat' | grep-v 'grep'`
+    done
+    echo ""
+    if [ ! -z "$PROCESSES" ]; then
+        PROCESS_ID=`echo $PROCESSES | awk '{ print $2 }'`
+        echo "Killing process: $PROCESS_ID"
+        kill -9 $PROCESS_ID
+    fi
+}
+# See how we were called.
+case "$1" in
+    start)
+        $CATALINA_HOME/bin/startup.sh -u $RUN_USER -Dcatalina.base$CATALINA_BASE
+    ;;
+    # debug)
+        # DEBUG_PORT=10001
+        ## export JAVA_OPTS="${JAVA_OPTS} -Xdebug -Xrunjdwp:transport=dt_socket,address{DEBUG_PORT},server=y,suspend=n"
+        # $CATALINA_HOME/bin/startup.sh -Dcatalina.base{CATALINA_BASE}
+        # ;;
+    stop)
+        # $CATALINA_HOME/bin/shutdown.sh
+        $CATALINA_HOME/bin/shutdown.sh
+        waitForTomcatToDie
+        echo "…Tomcat stopped."
+        ;;
+    restart)
+        $0 stop
+        echo "…Restarting…"
+        sleep 8
+        $0 start
+        ;;
+    status)
+        status $PROG -p $PIDFILE
+        RETVAL=$?
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|restart|status}"
+        RETVAL=1
+esac
+exit $RETVAL

@@ -1,0 +1,52 @@
+dn: ou=automount,dc=example,dc=jp
+objectClass: organizationalUnit
+# automountのトップou
+ou: automount
+
+dn: ou=auto.master,ou=automount,dc=example,dc=jp
+ou: auto.master
+objectClass: top
+# automountのマッピング元のOU
+objectClass: automountMap
+
+dn: cn=/home,ou=auto.master,ou=automount,dc=example,dc=jp
+objectClass: top
+objectClass: automount
+automountInformation: ldap:ou=auto.home,ou=automount,dc=example,dc=jp
+# auto.homeマウント時のマウント元ディレクトリ
+cn: /home
+
+dn: cn=/prj,ou=auto.master,ou=automount,dc=example,dc=jp
+objectClass: top
+objectClass: automount
+automountInformation: ldap:ou=auto.prj,ou=automount,dc=example,dc=jp
+# auto.prjマウント時のマウント元ディレクトリ
+cn: /prj
+
+dn: ou=auto.home,ou=automount,dc=example,dc=jp
+ou: auto.home
+objectClass: top
+# auto.homeマウントマップのOU
+objectClass: automountMap
+
+dn: cn=*,ou=auto.home,ou=automount,dc=example,dc=jp
+objectClass: top
+objectClass: automount
+description: generic home directory
+automountInformation: -rw,fstype=nfs,soft,rsize=8192,wsize=8192 qnapnas.example.jp:/home_data/&
+# auto.homeマウント時のサーバ側情報
+cn: *
+
+dn: ou=auto.prj,ou=automount,dc=example,dc=jp
+ou: auto.share
+objectClass: top
+# auto.prjマウントマップのOU
+objectClass: automountMap
+
+dn: cn=*,ou=auto.prj,ou=automount,dc=example,dc=jp
+objectClass: top
+objectClass: automount
+description: prj directory
+automountInformation: -rw,fstype=nfs,soft,rsize=8192,wsize=8192 qnapnas.example.jp:/prj/&
+# auto.prjマウント時のサーバ側情報
+cn: *
