@@ -1,0 +1,10 @@
+[Unit]
+Description=Mail Log Monitor
+After=network.target
+
+[Service]
+ExecStart=/etc/rspamd/local.d/alert_mail/monitor_rspamd_log.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

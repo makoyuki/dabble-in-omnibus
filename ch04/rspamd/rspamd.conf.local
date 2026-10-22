@@ -1,0 +1,2 @@
+lua = "$LOCAL_CONFDIR/local.d/add_header.lua";
+lua = "$LOCAL_CONFDIR/local.d/content_check.lua";

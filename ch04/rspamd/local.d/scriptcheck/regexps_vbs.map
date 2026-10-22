@@ -1,0 +1,1 @@
+/<script\b[^>]*\b(language|type)\s*=\s*["']?(text\/)?vbscript/i

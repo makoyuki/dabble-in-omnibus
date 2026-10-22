@@ -15,7 +15,7 @@
 | `ch04/postfix-milter/` | Postfixのmilter(Python) | Vol.6 |
 | `ch04/pop3proxy/` | POP3 Proxy(Python) | Vol.7 |
 | `ch04/pop3proxy-v2/` | POP3 Proxyの構成見直し版(dovecotと組み合わせる版。総集編で修正あり) | Vol.7 補足版 |
-| `ch04/rspamd/` | rspamdでヘッダを追加するLuaスクリプト | Vol.8 |
+| `ch04/rspamd/` | rspamdの個別設定一式(SPFのスキップ、ヘッダの追加、添付ファイル・本文のスクリプトの拒否、reject時の通知)。`/etc/rspamd/` の下に置く形 | Vol.8 |
 | `ch04/messasy/` | Messasyの設定 | Vol.11 |
 | `ch05/ldap-password-ui/` | LDAPパスワード変更用Web UI(PHP) | Vol.7 |
 | `ch05/nis2ldap/` | NIS→LDAPのアカウント移行スクリプト(sh・awk) | Vol.8 |
@@ -30,6 +30,13 @@
   - スパムと判定したときに、SpamAssassinがヘッダを追加したメールに正しく差し替えるようにした(以前は判定もできていなかった)
   - ログにパスワード(PASSコマンド)を書かないようにし、メール本文まるごとのログはDEBUGのときだけにした
   - 元の原稿でコメントの `#` が抜けていた行を直した
+- `ch04/rspamd/`: rspamd 2.7(Ubuntu 22.04のapt)と4.2.3で実際にメールを判定させて確認し、当時の原稿で正しく動いていなかったところを直した
+  - SPFをスキップするIPの指定を `remote_ip` から `ip` にした(`remote_ip` という項目はなく、スキップされていなかった)
+  - ヘッダを追加するLuaを `rspamd.conf.local` から読み込むようにした(`worker-normal.inc` の `modules` では読み込まれない)。宛先・送信元はエンベロープとヘッダの両方(Ccを含む)を、大文字・小文字を区別せずに見るようにした
+  - 添付ファイルの拒否は拡張子で判定するようにした(`filter = "extension"`)。`regexp = "true"` を `regexp = true` にした
+  - 本文のスクリプトの検出を、multimapからLua(`content_check.lua`)と `force_actions.conf` に移した。multimapでは、base64やquoted-printableでエンコードされたHTMLの本文を見られず、`.*?` も改行をまたがないため、検出できていなかった
+  - 使われていなかった `scores.conf` をやめた
+  - reject時の通知スクリプトを、Postfixのログではなくrspamdのログ(1通ごとの判定結果の行)から、検出したシンボル・送信者・受信者を取り出す形にした。サービスのファイルのパスも合わせた
 - `ch06/openvpn/ldap_auth.py`、`ch05/autofs/automount.ldif`: 本文向けに付けていた注釈を、それぞれPython・LDIFのコメントに直した
 - `ch05/nis2ldap/scripts/`: 当時配布していたアーカイブのまま。改行をLFに、文字コードをUTF-8にそろえた
 
