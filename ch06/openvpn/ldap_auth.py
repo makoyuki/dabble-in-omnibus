@@ -3,9 +3,9 @@ import sys
 from ldap3 import Server, Connection, ALL
 
 ldap_server = 'ldap.example.co.jp'  # ①
-ldap_user_dn = 'cn=Manager,dc=example,dc=co,dc=jp' #②
+ldap_user_dn = 'cn=Manager,dc=example,dc=jp' #②
 ldap_password = 'PASSWORD' #③
-user_dn_template = 'uid={},ou=People,dc=example,dc=co,dc=jp' #④
+user_dn_template = 'uid={},ou=People,dc=example,dc=jp' #④
 
 def ldap_auth(username, password):
     try:

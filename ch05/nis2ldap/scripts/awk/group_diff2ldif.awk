@@ -1,7 +1,7 @@
 # -*- mode:awk -*-
 # 
 # diff group.before group.after | awk -v ldifdir=xxxx -v TS=yyyymmdd-HHMMSS -f group_diff2ldif.awk \
-# BASEDN="dc=example,dc=co,dc=jp" SID=$sambaSID GID=$sambaNextGroupRid BASE=$sambaAlgorithmicRidBase
+# BASEDN="dc=example,dc=jp" SID=$sambaSID GID=$sambaNextGroupRid BASE=$sambaAlgorithmicRidBase
 BEGIN{
     if( ldifdir != "" ){
 	l = length( ldifdir );

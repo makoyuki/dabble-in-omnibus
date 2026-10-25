@@ -4,7 +4,7 @@ then
     export DEFINE=True
    
     # LDAP settgings
-    export BASEDN="dc=example,dc=co,dc=jp"
+    export BASEDN="dc=example,dc=jp"
     export sambaDomain=ldapserver名
     export manager="cn=Manager"
     export admin="cn=admin"

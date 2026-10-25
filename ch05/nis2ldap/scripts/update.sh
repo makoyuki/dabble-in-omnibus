@@ -49,7 +49,7 @@ then
 fi
 
 # ---
-# update: ou=People,dc=example,dc=co,dc=jp
+# update: ou=People,dc=example,dc=jp
 # ---
 TARGET=users
 MKLDIF="${MASTER2LDIF}"
@@ -86,7 +86,7 @@ then
 fi
 
 # ---
-# update: ou=Group,dc=example,dc=co,dc=jp
+# update: ou=Group,dc=example,dc=jp
 # ---
 TARGET=group
 MKLDIF="${GROUP2LDIF}"

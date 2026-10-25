@@ -2,7 +2,7 @@
 #
 # diff passwd.before passwd.after | \
 # gawk -v ldifdir=xxxx -v TS=yyyymmdd-HHMMSS -v master=master.passwd \
-#      -f diff2ldif.awk BASEDN="dc=example,dc=co,dc=jp" SID=$sambaSID \
+#      -f diff2ldif.awk BASEDN="dc=example,dc=jp" SID=$sambaSID \
 #      SDN=$sambaDomainName NBN=$NetBiosName BASE=$sambaAlgorithmicRidBase UID=$sambaNextUserRid
 #  -> { del_users, mod_users.ldif, add_users.ldif, sambaNextUserRid.txt }
 BEGIN{
